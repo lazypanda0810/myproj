@@ -1,0 +1,65 @@
+# Built application files
+*.apk
+*.aab
+*.ap_
+
+# Files for the ART/Dalvik VM
+*.dex
+
+# Java class files
+*.class
+
+# Generated files
+bin/
+gen/
+out/
+
+# Gradle files
+.gradle/
+build/
+
+# Local configuration files
+local.properties
+/.idea/workspace.xml
+/.idea/libraries/
+/.idea/tasks.xml
+# Deprecated since Android Studio 3.5
+# /.idea/gradle.xml
+# /.idea/assetWizardSettings.xml
+# /.idea/dictionaries/
+# /.idea/render.experimental.xml
+
+# Mac files
+.DS_Store
+
+# Windows files
+Thumbs.db
+
+# Caches
+.cxx/
+*.hprof
+*~
+*.lock
+*.keystore
+*.jks
+
+# Android Studio Navigation editor files
+.navigation/
+
+# Android Studio profiler files
+*.snapshot
+
+# Keystore files
+*.keystore
+*.jks
+
+# Google Services (e.g., Firebase)
+google-services.json
+
+# Various sensitive files
+*.cer
+*.p12
+*.pfx
+
+# Log files
+*.log
