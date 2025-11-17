@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".LessonDetailActivity">
+
+    <TextView
+        android:id="@+id/tv_lesson_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        tools:text="Lesson Title" />
+
+    <TextView
+        android:id="@+id/tv_lesson_pointers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="Pointers:" />
+        
+    <TextView
+        android:id="@+id/tv_pointers_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        tools:text="• Point 1
+• Point 2" />
+
+    <TextView
+        android:id="@+id/tv_lesson_theory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="Theory:" />
+
+    <TextView
+        android:id="@+id/tv_theory_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        tools:text="This is the theory section..." />
+
+    <TextView
+        android:id="@+id/tv_lesson_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="Code Example:" />
+        
+    <TextView
+        android:id="@+id/tv_code_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#ECECEC"
+        android:fontFamily="monospace"
+        android:padding="8dp"
+        android:textColor="#000000"
+        tools:text="public void main() {}" />
+
+</LinearLayout>

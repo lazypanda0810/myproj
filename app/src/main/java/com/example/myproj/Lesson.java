@@ -7,12 +7,22 @@ public class Lesson implements Serializable {
     private final String title;
     private final String duration;
     private boolean completed;
+    private final String pointers;
+    private final String theory;
+    private final String codeExamples;
 
-    public Lesson(String id, String title, String duration) {
+    public Lesson(String id, String title, String duration, String pointers, String theory, String codeExamples) {
         this.id = id;
         this.title = title;
         this.duration = duration;
         this.completed = false;
+        this.pointers = pointers;
+        this.theory = theory;
+        this.codeExamples = codeExamples;
+    }
+
+    public Lesson(String id, String title, String duration) {
+        this(id, title, duration, "", "", "");
     }
 
     public String getId() {
@@ -33,5 +43,17 @@ public class Lesson implements Serializable {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    public String getPointers() {
+        return pointers;
+    }
+
+    public String getTheory() {
+        return theory;
+    }
+
+    public String getCodeExamples() {
+        return codeExamples;
     }
 }

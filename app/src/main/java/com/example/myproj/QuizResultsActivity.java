@@ -67,6 +67,12 @@ public class QuizResultsActivity extends AppCompatActivity {
 
             btnViewCertificate.setOnClickListener(v -> {
                 Intent intent = new Intent(QuizResultsActivity.this, CertificateActivity.class);
+
+                // Get student name from SharedPreferences
+                SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+                String studentName = prefs.getString("student_name", "Student");
+
+                intent.putExtra(CertificateActivity.EXTRA_STUDENT_NAME, studentName);
                 intent.putExtra(CertificateActivity.EXTRA_COURSE_NAME, courseName);
                 intent.putExtra(CertificateActivity.EXTRA_COMPLETION_PERCENTAGE, completionPercentage);
                 intent.putExtra(CertificateActivity.EXTRA_TEST_SCORE, (int) percentage);

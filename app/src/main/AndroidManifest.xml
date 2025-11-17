@@ -34,6 +34,7 @@
         </activity>
         <activity android:name=".CoursesActivity" />
         <activity android:name=".CourseDetailActivity" />
+        <activity android:name=".LessonDetailActivity" />
         <activity android:name=".QuizActivity" />
         <activity android:name=".QuizResultsActivity" />
         <activity android:name=".DashboardActivity" />

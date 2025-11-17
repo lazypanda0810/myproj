@@ -42,12 +42,15 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         // Calculate and display progress
         SharedPreferences sharedPreferences = holder.itemView.getContext().getSharedPreferences("user_progress", Context.MODE_PRIVATE);
         int completedLessons = 0;
-        for (Lesson lesson : course.getLessons()) {
-            if (sharedPreferences.getBoolean("lesson_" + lesson.getId(), false)) {
-                completedLessons++;
+        int progress = 0;
+        if (course.getLessons() != null && !course.getLessons().isEmpty()) {
+            for (Lesson lesson : course.getLessons()) {
+                if (sharedPreferences.getBoolean("lesson_" + lesson.getId(), false)) {
+                    completedLessons++;
+                }
             }
+            progress = (int) (((float) completedLessons / course.getLessons().size()) * 100);
         }
-        int progress = (int) (((float) completedLessons / course.getLessons().size()) * 100);
         holder.progressBar.setProgress(progress);
 
         holder.itemView.setOnClickListener(v -> {

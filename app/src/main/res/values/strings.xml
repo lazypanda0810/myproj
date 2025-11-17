@@ -6,29 +6,42 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_feedback">Feedback</string>
 
+    <string name="course_completion_percentage">Course Completion: %1$d%%</string>
+    <string name="test_score">Test Score: %1$d%%</string>
+    <string name="completion_date">Completion Date: %1$s</string>
+    <string name="certificate_downloaded">🎉 Your certificate has been downloaded!</string>
+    <string name="error_generating_certificate">Error generating certificate: %1$s</string>
+    <string name="share_certificate">Share Certificate</string>
+    <string name="demo_user">Demo User</string>
+    <string name="java_code_example">public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println(&quot;Hello, World!&quot;);
+    }
+}</string>
+
     <string-array name="motivational_quotes">
-        <item>"The best way to predict the future is to create it."</item>
-        <item>"Your limitation is only your imagination."</item>
-        <item>"Push yourself, because no one else is going to do it for you."</item>
-        <item>"Great things never come from comfort zones."</item>
-        <item>"Dream it. Wish it. Do it."</item>
-        <item>"Success doesn’t just find you. You have to go out and get it."</item>
-        <item>"The harder you work for something, the greater you’ll feel when you achieve it."</item>
-        <item>"Dream bigger. Do bigger."</item>
-        <item>"Don’t stop when you’re tired. Stop when you’re done."</item>
-        <item>"Wake up with determination. Go to bed with satisfaction."</item>
+        <item>The best way to predict the future is to create it.</item>
+        <item>Your limitation is only your imagination.</item>
+        <item>Push yourself, because no one else is going to do it for you.</item>
+        <item>Great things never come from comfort zones.</item>
+        <item>Dream it. Wish it. Do it.</item>
+        <item>Success doesn’t just find you. You have to go out and get it.</item>
+        <item>The harder you work for something, the greater you’ll feel when you achieve it.</item>
+        <item>Dream bigger. Do bigger.</item>
+        <item>Don’t stop when you’re tired. Stop when you’re done.</item>
+        <item>Wake up with determination. Go to bed with satisfaction.</item>
     </string-array>
 
     <string-array name="daily_challenges">
-        <item>"Complete one lesson in any course."</item>
-        <item>"Score 80% or higher on any quiz."</item>
-        <item>"Spend 15 minutes learning a new skill."</item>
-        <item>"Review a completed course to reinforce your knowledge."</item>
-        <item>"Take a quiz for a course you haven\'t visited in a week."</item>
-        <item>"Explore a new course and complete the first lesson."</item>
-        <item>"Share your certificate on social media."</item>
-        <item>"Read the overview of all available courses."</item>
-        <item>"Give feedback on a course you completed."</item>
-        <item>"Complete a course from a new category."</item>
+        <item>Complete one lesson in any course.</item>
+        <item>Score 80% or higher on any quiz.</item>
+        <item>Spend 15 minutes learning a new skill.</item>
+        <item>Review a completed course to reinforce your knowledge.</item>
+        <item>Take a quiz for a course you haven\'t visited in a week.</item>
+        <item>Explore a new course and complete the first lesson.</item>
+        <item>Share your certificate on social media.</item>
+        <item>Read the overview of all available courses.</item>
+        <item>Give feedback on a course you completed.</item>
+        <item>Complete a course from a new category.</item>
     </string-array>
 </resources>

@@ -32,6 +32,7 @@ public class CourseDetailActivity extends AppCompatActivity implements LessonAda
     private LessonAdapter lessonAdapter;
     private SharedPreferences prefs;
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,8 +67,9 @@ public class CourseDetailActivity extends AppCompatActivity implements LessonAda
 
     private void trackCourseViewed() {
         Set<String> coursesViewed = prefs.getStringSet("courses_viewed", new HashSet<>());
-        coursesViewed.add(String.valueOf(course.getId()));
-        prefs.edit().putStringSet("courses_viewed", coursesViewed).apply();
+        Set<String> updatedSet = new HashSet<>(coursesViewed);
+        updatedSet.add(String.valueOf(course.getId()));
+        prefs.edit().putStringSet("courses_viewed", updatedSet).apply();
     }
 
     private void setupRecyclerView() {
@@ -77,6 +79,7 @@ public class CourseDetailActivity extends AppCompatActivity implements LessonAda
     }
 
     private void loadCompletedLessons() {
+        if (course.getLessons() == null) return;
         for (Lesson lesson : course.getLessons()) {
             boolean isCompleted = prefs.getBoolean("lesson_" + lesson.getId(), false);
             lesson.setCompleted(isCompleted);
@@ -89,6 +92,7 @@ public class CourseDetailActivity extends AppCompatActivity implements LessonAda
         editor.putBoolean("lesson_" + lessonId, isCompleted);
         editor.apply();
 
+        if (course.getLessons() == null) return;
         for (Lesson lesson : course.getLessons()) {
             if (Integer.parseInt(lesson.getId()) == lessonId) {
                 lesson.setCompleted(isCompleted);
@@ -100,6 +104,11 @@ public class CourseDetailActivity extends AppCompatActivity implements LessonAda
     }
 
     private void updateProgress() {
+        if (course.getLessons() == null || course.getLessons().isEmpty()) {
+            pbCourseProgress.setProgress(0);
+            btnTakeQuiz.setVisibility(View.GONE);
+            return;
+        }
         int completedLessons = 0;
         for (Lesson lesson : course.getLessons()) {
             if (lesson.isCompleted()) {

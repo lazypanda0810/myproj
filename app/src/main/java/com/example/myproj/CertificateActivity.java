@@ -1,12 +1,17 @@
 package com.example.myproj;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -14,14 +19,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class CertificateActivity extends AppCompatActivity {
 
@@ -30,9 +37,14 @@ public class CertificateActivity extends AppCompatActivity {
     public static final String EXTRA_COMPLETION_PERCENTAGE = "extra_completion_percentage";
     public static final String EXTRA_TEST_SCORE = "extra_test_score";
 
+    private static final String TAG = "CertificateActivity"; // For logging
+
     private LinearLayout certificateLayout;
     private String studentName;
     private String courseName;
+
+    // Executor for background tasks
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,64 +67,95 @@ public class CertificateActivity extends AppCompatActivity {
 
 
         if (studentName == null || studentName.isEmpty()) {
-            studentName = "Demo User"; // Default value
+            studentName = getString(R.string.demo_user); // Use string resource
         }
 
         tvStudentName.setText(studentName);
         tvCourseName.setText(courseName);
-        tvCompletionPercentage.setText("Course Completion: " + completionPercentage + "%");
-        tvTestScore.setText("Test Score: " + testScore + "%");
+
+        tvCompletionPercentage.setText(getString(R.string.course_completion_percentage, completionPercentage));
+        tvTestScore.setText(getString(R.string.test_score, testScore));
 
         String currentDate = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(new Date());
-        tvCompletionDate.setText("Completion Date: " + currentDate);
+        tvCompletionDate.setText(getString(R.string.completion_date, currentDate));
 
         btnDownload.setOnClickListener(v -> generateCertificate(false));
         btnShare.setOnClickListener(v -> generateCertificate(true));
     }
 
     private void generateCertificate(boolean isShare) {
-        Bitmap bitmap = getBitmapFromView(certificateLayout);
+        // Capture the view on the UI thread first
+        final Bitmap bitmap = getBitmapFromView(certificateLayout);
 
-        if (bitmap != null) {
-            PdfDocument document = new PdfDocument();
-            PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(bitmap.getWidth(), bitmap.getHeight(), 1).create();
-            PdfDocument.Page page = document.startPage(pageInfo);
-
-            Canvas canvas = page.getCanvas();
-            canvas.drawBitmap(bitmap, 0, 0, null);
-            document.finishPage(page);
-
+        executorService.execute(() -> {
+            // All file operations are now on a background thread
             String fileName = "Certificate_" + studentName.replace(" ", "_") + "_" + courseName.replace(" ", "_") + ".pdf";
+            Uri uri = null;
 
             try {
-                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
-                FileOutputStream fos = new FileOutputStream(file);
-                document.writeTo(fos);
-                document.close();
-                fos.close();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    ContentResolver resolver = getContentResolver();
+                    ContentValues values = new ContentValues();
+                    values.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
+                    values.put(MediaStore.MediaColumns.MIME_TYPE, "application/pdf");
+                    values.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS);
 
-                if (isShare) {
-                    shareCertificate(file);
+                    uri = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values);
+                    if (uri == null) {
+                        throw new IOException("Failed to create new MediaStore record.");
+                    }
+                    try (OutputStream outputStream = resolver.openOutputStream(uri)) {
+                        writePdf(outputStream, bitmap);
+                    }
                 } else {
-                    Toast.makeText(this, "🎉 Your certificate has been downloaded!", Toast.LENGTH_LONG).show();
+                    File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                    File file = new File(downloadsDir, fileName);
+                    try (OutputStream outputStream = new FileOutputStream(file)) {
+                        writePdf(outputStream, bitmap);
+                    }
+                    uri = Uri.fromFile(file);
                 }
 
+                final Uri finalUri = uri;
+                runOnUiThread(() -> {
+                    if (isShare) {
+                        shareCertificate(finalUri);
+                    } else {
+                        Toast.makeText(this, R.string.certificate_downloaded, Toast.LENGTH_LONG).show();
+                    }
+                });
+
             } catch (IOException e) {
-                e.printStackTrace();
-                Toast.makeText(this, "Error generating certificate: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                // If there's an error, attempt to delete the incomplete file
+                if (uri != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    getContentResolver().delete(uri, null, null);
+                }
+                Log.e(TAG, "Error generating certificate PDF", e);
+                runOnUiThread(() -> Toast.makeText(this, getString(R.string.error_generating_certificate, e.getMessage()), Toast.LENGTH_LONG).show());
             }
-        }
+        });
     }
 
-    private void shareCertificate(File file) {
-        Uri contentUri = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", file);
+    private void writePdf(OutputStream outputStream, Bitmap bitmap) throws IOException {
+        if (outputStream == null) {
+            throw new IOException("Failed to get output stream.");
+        }
+        PdfDocument document = new PdfDocument();
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(bitmap.getWidth(), bitmap.getHeight(), 1).create();
+        PdfDocument.Page page = document.startPage(pageInfo);
+        Canvas canvas = page.getCanvas();
+        canvas.drawBitmap(bitmap, 0, 0, null);
+        document.finishPage(page);
+        document.writeTo(outputStream);
+        document.close();
+    }
 
+    private void shareCertificate(Uri uri) {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("application/pdf");
-        shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-        startActivity(Intent.createChooser(shareIntent, "Share Certificate"));
+        startActivity(Intent.createChooser(shareIntent, getString(R.string.share_certificate)));
     }
 
     private Bitmap getBitmapFromView(View view) {
