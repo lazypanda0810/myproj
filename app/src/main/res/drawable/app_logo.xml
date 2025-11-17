@@ -1,9 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <solid android:color="#E0E0E0" />
-    <size
-        android:width="80dp"
-        android:height="80dp" />
-    <corners android:radius="8dp" />
-</shape>
+<!-- App Logo - SkillUp branding -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+
+    <!-- Background rounded square -->
+    <path
+        android:fillColor="#003A70"
+        android:pathData="M40,0 L160,0 Q200,0 200,40 L200,160 Q200,200 160,200 L40,200 Q0,200 0,160 L0,40 Q0,0 40,0 Z" />
+
+    <!-- Open book - left page -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M60,100 Q60,90 70,90 L95,90 Q100,90 100,95 L100,130 Q100,135 95,135 L70,135 Q60,135 60,130 Z" />
+
+    <!-- Open book - right page -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M100,100 Q100,90 105,90 L130,90 Q140,90 140,95 L140,130 Q140,135 130,135 L105,135 Q100,135 100,130 Z" />
+
+    <!-- Arrow shaft -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M105,120 L130,95 L130,105 L110,125 Z" />
+
+    <!-- Arrow head -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M125,70 L150,95 L140,95 L130,95 L130,85 L130,75 Z" />
+</vector>
+

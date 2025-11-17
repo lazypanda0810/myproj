@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SkillUp Logo - Blue background with white book and arrow icon -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background rounded square -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#003A70" />
+            <corners android:radius="32dp" />
+        </shape>
+    </item>
+
+    <!-- Logo icon (book with arrow) - simplified vector representation -->
+    <item
+        android:width="120dp"
+        android:height="120dp"
+        android:gravity="center">
+        <vector
+            android:width="120dp"
+            android:height="120dp"
+            android:viewportWidth="120"
+            android:viewportHeight="120">
+
+            <!-- Open book base -->
+            <path
+                android:fillColor="#FFFFFF"
+                android:pathData="M30,60 Q30,55 35,55 L55,55 Q60,55 60,60 L60,75 Q60,80 55,80 L35,80 Q30,80 30,75 Z" />
+
+            <path
+                android:fillColor="#FFFFFF"
+                android:pathData="M60,60 Q60,55 65,55 L85,55 Q90,55 90,60 L90,75 Q90,80 85,80 L65,80 Q60,80 60,75 Z" />
+
+            <!-- Arrow pointing up-right -->
+            <path
+                android:fillColor="#FFFFFF"
+                android:strokeWidth="5"
+                android:strokeColor="#FFFFFF"
+                android:pathData="M50,70 L75,45 M75,45 L75,60 M75,45 L65,45" />
+        </vector>
+    </item>
+</layer-list>
+

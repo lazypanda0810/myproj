@@ -1,10 +1,12 @@
 <resources>
-    <string name="app_name">myproj</string>
+    <string name="app_name">SkillUp</string>
 
     <string name="title_home">Home</string>
     <string name="title_courses">Courses</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_feedback">Feedback</string>
+    <string name="skillup_logo">SkillUp Logo</string>
+    <string name="certificate_logo">Certificate Logo</string>
 
     <string name="course_completion_percentage">Course Completion: %1$d%%</string>
     <string name="test_score">Test Score: %1$d%%</string>

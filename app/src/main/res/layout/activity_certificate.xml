@@ -18,10 +18,11 @@
 
         <ImageView
             android:id="@+id/iv_app_logo"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/app_logo" />
+            android:src="@drawable/skillup_logo"
+            android:contentDescription="@string/skillup_logo" />
 
         <TextView
             android:layout_width="wrap_content"
